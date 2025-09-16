@@ -152,12 +152,12 @@ CREATE TABLE employees (
 
 ### 🏗️ Create & Delete Database in PostgreSQL
 
-| Command | Description | Example |
-|---------|-------------|---------|
-| `CREATE DATABASE databasename;` | Creates a new database | `CREATE DATABASE school_db;` |
-| `CREATE DATABASE databasename OWNER username;` | Creates a new database with a specific owner | `CREATE DATABASE company_db OWNER nayra;` |
-| `DROP DATABASE databasename;` | Deletes an existing database permanently | `DROP DATABASE school_db;` |
-| `DROP DATABASE IF EXISTS databasename;` | Deletes a database only if it exists (avoids error) | `DROP DATABASE IF EXISTS old_db;` |
+| Command                                        | Description                                         | Example                                   |
+|------------------------------------------------|-----------------------------------------------------|-------------------------------------------|
+| `CREATE DATABASE databasename;`                | Creates a new database                              | `CREATE DATABASE school_db;`              |
+| `CREATE DATABASE databasename OWNER username;` | Creates a new database with a specific owner        | `CREATE DATABASE company_db OWNER nayra;` |
+| `DROP DATABASE databasename;`                  | Deletes an existing database permanently            | `DROP DATABASE school_db;`                |
+| `DROP DATABASE IF EXISTS databasename;`        | Deletes a database only if it exists (avoids error) | `DROP DATABASE IF EXISTS old_db;`         |
 
 ## 📋 CRED 
 - ➕➖ Read,Inserting, Updating, Deleting Records
@@ -176,14 +176,30 @@ CREATE TABLE person (
     city VARCHAR(100)
 );
 ```
+#### 🗑️ Delete (Drop) Table in PostgreSQL
+
+| Command                           | Description                                                                                      | Example                           |
+|-----------------------------------|--------------------------------------------------------------------------------------------------|-----------------------------------|
+| `DROP TABLE tablename;`           | Deletes an existing table permanently                                                            | `DROP TABLE employees;`           |
+| `DROP TABLE IF EXISTS tablename;` | Deletes a table only if it exists (avoids error if table is missing)                             | `DROP TABLE IF EXISTS old_data;`  |
+| `DROP TABLE tablename CASCADE;`   | Deletes a table **and** automatically removes objects depending on it (like foreign keys, views) | `DROP TABLE department CASCADE;`  |
+| `DROP TABLE tablename RESTRICT;`  | Default option – prevents table deletion if other objects depend on it                           | `DROP TABLE department RESTRICT;` |
+
+---
+
+### ⚠️ Notes
+- Once dropped, the table and its data are **gone permanently** (unless you have a backup).
+- You cannot recover dropped tables directly.
+- Use `\dt` inside `psql` to list available tables before dropping.
+
 #### 🔄 CRED Operations in PostgreSQL
 
-| Operation | Command | Example | Description |
-|-----------|---------|---------|-------------|
-| **Create** | `INSERT INTO tablename (columns) VALUES (values);` | `INSERT INTO students (name, age, grade) VALUES ('Riya', 14, 9);` | Adds new data (row) into a table |
-| **Read** | `SELECT columns FROM tablename;` | `SELECT * FROM students;` | Retrieves data from a table |
-| **Update** | `UPDATE tablename SET column = value WHERE condition;` | `UPDATE students SET grade = 10 WHERE name = 'Riya';` | Modifies existing data |
-| **Delete** | `DELETE FROM tablename WHERE condition;` | `DELETE FROM students WHERE name = 'Riya';` | Removes data from a table |
+| Operation  | Command                                                | Example                                                           | Description                      |
+|------------|--------------------------------------------------------|-------------------------------------------------------------------|----------------------------------|
+| **Create** | `INSERT INTO tablename (columns) VALUES (values);`     | `INSERT INTO students (name, age, grade) VALUES ('Riya', 14, 9);` | Adds new data (row) into a table |
+| **Read**   | `SELECT columns FROM tablename;`                       | `SELECT * FROM students;`                                         | Retrieves data from a table      |
+| **Update** | `UPDATE tablename SET column = value WHERE condition;` | `UPDATE students SET grade = 10 WHERE name = 'Riya';`             | Modifies existing data           |
+| **Delete** | `DELETE FROM tablename WHERE condition;`               | `DELETE FROM students WHERE name = 'Riya';`                       | Removes data from a table        |
 
 ---
 
