@@ -13,6 +13,10 @@ This repository is maintained as a personal guide and quick reference for databa
    - [Database vs Schema vs Table](#-database-vs-schema-vs-table)
 2. 🗂 [Data Types](#-data-types)
 3. 🔒 [Constraints](#-constraints)
+   - [Create & Delete Database in PostgreSQL](#-create--delete-database-in-postgresql)
+   - [CRED](#-cred-)
+   - [What is a Table?](#-what-is-a-table)
+   - 
 4. 📝 [SQL Basics](#-sql-basics)
 5. 🔗 [Joins](#-joins)
 6. ⚡ [Indexes](#-indexes)
@@ -57,18 +61,29 @@ This repository is maintained as a personal guide and quick reference for databa
 
 ---
 
-## 🖥️ Common `psql` Terminal Commands
-### 🔹 1. Connect with a specific user and database
-```bash
-psql -U nayra -d postgres
 
-- \list,                    \l                Shows all available databases.
-- \connect databasename     \c databasename   👉 Connects to school_db without leaving psql.
-```
-- -U nayra → login as user nayra
-- -d postgres → connect to the postgres database
 
-- If you don’t provide -d, PostgreSQL tries to connect to a database with the same name as the user.
+## 🖥️ PostgreSQL Commands Cheat-Sheet
+
+### 🔹 Terminal Commands (Run in PowerShell/Command Prompt)
+| Command                            | Description                                              | Example                     |
+|------------------------------------|----------------------------------------------------------|-----------------------------|
+| `psql -U username -d databasename` | Connects to PostgreSQL with a specific user and database | `psql -U nayra -d postgres` |
+
+---
+
+### 🔹 Meta-Commands (Run inside `psql`)
+| Command                                      | Description                                                                    | Example         |
+|----------------------------------------------|--------------------------------------------------------------------------------|-----------------|
+| `\l` or `\list`                              | Lists all databases                                                            | `\l`            |
+| `\c databasename` or `\connect databasename` | Connects to a specific database                                                | `\c school_db`  |
+| `\d`                                         | Lists all tables, views, and sequences in the current schema                   | `\d`            |
+| `\d tablename`                               | Shows the structure of a specific table (columns, types, constraints, indexes) | `\d employees`  |
+| `\d+ tablename`                              | Same as `\d tablename` but with extra details (storage, description, etc.)     | `\d+ employees` |
+| `\dt`                                        | Lists only tables in the current schema                                        | `\dt`           |
+| `\du`                                        | Lists all roles/users in the database                                          | `\du`           |
+| `\q`                                         | Quits/Exits from `psql`                                                        | `\q`            |
+
 
 ## 📂 Database vs Schema vs Table
 ### 🗄️ Database
@@ -184,6 +199,19 @@ CREATE TABLE person (
 | `DROP TABLE IF EXISTS tablename;` | Deletes a table only if it exists (avoids error if table is missing)                             | `DROP TABLE IF EXISTS old_data;`  |
 | `DROP TABLE tablename CASCADE;`   | Deletes a table **and** automatically removes objects depending on it (like foreign keys, views) | `DROP TABLE department CASCADE;`  |
 | `DROP TABLE tablename RESTRICT;`  | Default option – prevents table deletion if other objects depend on it                           | `DROP TABLE department RESTRICT;` |
+
+#### ✏️ Modify Table Columns in PostgreSQL
+
+| Command                                                             | Description                            | Example                                                   |
+|---------------------------------------------------------------------|----------------------------------------|-----------------------------------------------------------|
+| `ALTER TABLE tablename RENAME COLUMN old_name TO new_name;`         | Renames a column in a table            | `ALTER TABLE employees RENAME COLUMN name TO full_name;`  |
+| `ALTER TABLE tablename ALTER COLUMN column_name TYPE new_datatype;` | Changes the data type of a column      | `ALTER TABLE employees ALTER COLUMN age TYPE BIGINT;`     |
+| `ALTER TABLE tablename ALTER COLUMN column_name SET NOT NULL;`      | Adds a NOT NULL constraint to a column | `ALTER TABLE employees ALTER COLUMN email SET NOT NULL;`  |
+| `ALTER TABLE tablename ALTER COLUMN column_name DROP NOT NULL;`     | Removes NOT NULL constraint            | `ALTER TABLE employees ALTER COLUMN email DROP NOT NULL;` |
+| `ALTER TABLE tablename ADD COLUMN column_name datatype;`            | Adds a new column                      | `ALTER TABLE employees ADD COLUMN salary NUMERIC(10,2);`  |
+| `ALTER TABLE tablename DROP COLUMN column_name;`                    | Deletes a column                       | `ALTER TABLE employees DROP COLUMN salary;`               |
+
+
 
 ---
 
